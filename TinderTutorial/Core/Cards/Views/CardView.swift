@@ -31,21 +31,22 @@ struct CardView: View {
         .animation(.snappy, value: xOffset)
         .gesture(
             DragGesture()
-                .onChanged ({ gesture in
-                    xOffset = gesture.translation.width
-                    degrees = Double(gesture.translation.width / 25)
-                }) .onEnded ({ value in
-                    onDragEnded(value)
-                })
+                .onChanged (onDgagChanged)
+                .onEnded (onDragEnded)
             )
     }
 }
 
 private extension CardView {
+    func onDgagChanged(_ value: _ChangedGesture<DragGesture>.Value) {
+        xOffset = value.translation.width
+        degrees = Double(value.translation.width / 25)
+    }
+    
     func onDragEnded(_ value: _ChangedGesture<DragGesture>.Value) {
         let width = value.translation.width
         
-        if abs(width) < 300 {
+        if abs(width) <= abs(screenCutoff) {
             xOffset = 0
             degrees = 0
         }
