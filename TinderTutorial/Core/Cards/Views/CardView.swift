@@ -27,20 +27,37 @@ struct CardView: View {
         .offset(x: xOffset)
         // snappy / swippe effect
         .rotationEffect(.degrees(degrees))
+        // snapped back animation
+        .animation(.snappy, value: xOffset)
         .gesture(
             DragGesture()
-                .onChanged { gesture in
-                    withAnimation(.snappy) {
-                        xOffset = gesture.translation.width
-                        degrees = Double(gesture.translation.width / 25)
-                    }
-                }
-                
-        )
+                .onChanged (onDgagChanged)
+                .onEnded (onDragEnded)
+            )
     }
 }
 
 private extension CardView {
+    func onDgagChanged(_ value: _ChangedGesture<DragGesture>.Value) {
+        xOffset = value.translation.width
+        degrees = Double(value.translation.width / 25)
+    }
+    
+    func onDragEnded(_ value: _ChangedGesture<DragGesture>.Value) {
+        let width = value.translation.width
+        
+        if abs(width) <= abs(screenCutoff) {
+            xOffset = 0
+            degrees = 0
+        }
+        
+    }
+}
+
+private extension CardView {
+    var screenCutoff: CGFloat {
+        (UIScreen.main.bounds.width / 2) * 0.8
+    }
     var cardWidth: CGFloat {
         UIScreen.main.bounds.width - 20
     }
