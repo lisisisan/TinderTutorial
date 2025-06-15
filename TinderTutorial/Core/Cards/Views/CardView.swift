@@ -29,6 +29,7 @@ struct CardView: View {
                         ImageScrollingOverlayView(currentImageIndex: $currentImageIndex, imageCount: $mockImages.count)
                     }
                 
+                CardImageIndicatorView(currentImgeIndex: currentImageIndex, imageCount: mockImages.count)
                 SwipeActionIndicatorView(xOffset: $xOffset)
             }
             
