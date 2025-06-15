@@ -18,7 +18,9 @@ struct CardStackView: View {
                 }
             }
             
-            SwipeActionButtonsView(viewModel: viewModel)
+            if !viewModel.cardModels.isEmpty {
+                SwipeActionButtonsView(viewModel: viewModel)
+            }
         }
     }
 }
