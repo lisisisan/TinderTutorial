@@ -35,6 +35,9 @@ struct CardView: View {
             UserInfoView(user: user)
         }
         .frame(width: SizeConstants.cardWidth, height: SizeConstants.cardHeight)
+        .onReceive(viewModel.$buttonSwipeAction, perform: { action in
+            onReciveSwipeAction(action)
+        })
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .offset(x: xOffset)
         // snappy / swippe effect
@@ -81,6 +84,22 @@ private extension CardView {
         } completion: {
             viewModel.removeCard(model)
         }
+    }
+    
+    func onReciveSwipeAction(_ action: SwipeAction?) {
+        guard let action = action else { return }
+        
+        let topCard = viewModel.cardModels.last
+        
+        if topCard == model {
+            switch action {
+            case .reject:
+                swipeLeft()
+            case .like:
+                swipeRight()
+            }
+        }
+        
     }
 }
 
