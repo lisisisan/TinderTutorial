@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class CardsViewModel: ObservableObject {
     @Published var cardModels = [CardModel]()
     
